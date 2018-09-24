@@ -1,0 +1,98 @@
+编辑"/etc/modprobe.d/blacklist-nouveau.conf"文件，增加如下内容：
+
+blacklist nouveau
+
+options nouveau modeset=0
+
+alias nouveau off"
+
+然后运行如下命令，重启电脑即可正常登陆进入桌面；
+
+# update-initramfs -u && reboot
+
+5、进入桌面后安装 N 卡驱动
+
+# apt install nvidia-driver nvidia-xconfig
+
+6、查看电脑中 N 卡的总线 ID
+
+# nvidia-xconfig --query-gpu-info | grep 'BusID : ' | cut -d ' ' -f6
+
+记录如下查询结果：
+
+PCI:1:0:0
+
+7、创建并编辑 /etc/X11/xorg.conf 文件，增加如下内容（将BusID内容替换为上一步的查询结果）
+
+Section "ServerLayout"
+
+Identifier "layout"
+
+Screen 0 "nvidia"
+
+Inactive "intel"
+
+EndSection
+
+Section "Device"
+
+Identifier "nvidia"
+
+Driver "nvidia"
+
+BusID "PCI:1:0:0"
+
+EndSection
+
+Section "Screen"
+
+Identifier "nvidia"
+
+Device "nvidia"
+
+Option "AllowEmptyInitialConfiguration"
+
+EndSection
+
+Section "Device"
+
+Identifier "intel"
+
+Driver "modesetting"
+
+EndSection
+
+Section "Screen"
+
+Identifier "intel"
+
+Device "intel"
+
+EndSection
+
+8、创建以下两个脚本文件
+
+/usr/share/gdm/greeter/autostart/optimus.desktop
+
+/etc/xdg/autostart/optimus.desktop
+
+文件内容如下：
+
+[Desktop Entry]
+
+Type=Application
+
+Name=Optimus
+
+Exec=sh -c "xrandr --setprovideroutputsource modesetting NVIDIA-0; xrandr --auto"
+
+NoDisplay=true
+
+X-GNOME-Autostart-Phase=DisplayServer
+
+11、安装驱动
+
+# apt install ocl-icd-libopencl1 nvidia-driver nvidia-cuda-toolkit
+
+重启后进入系统正常，所有操作结束！
+无需nvidia-cuda-toolkit
