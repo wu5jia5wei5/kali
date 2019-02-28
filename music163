@@ -1,0 +1,6 @@
+https://music.163.com/#/download
+deepin15(64)
+~/下载# dpkg -i netease-cloud-music_1.1.0_amd64_deepin.deb
+sudo apt-get -f install
+~/下载# dpkg -i netease-cloud-music_1.1.0_amd64_deepin.deb
+not end,wait me
