@@ -1,0 +1,6 @@
+# update-grub
+# ls -l /usr/share/images/desktop-base/desktop-grub.png
+# file /usr/share/images/desktop-base/desktop-grub.png
+# file /etc/alternatives/desktop-grub
+# file /usr/share/desktop-base/active-theme/grub/grub-4x3.png
+: PNG image data, 640 x 480, 8-bit/color RGBA, non-interlaced
